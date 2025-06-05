@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { useProjects, useCreateProject, useUpdateProject, useDeleteProject } from "@/hooks/useProjects";
+import { useProjects, useCreateProject, useUpdateProject, useDeleteProject, type Project } from "@/hooks/useProjects";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
 
+type ProjectFormData = {
+  title: string;
+  description: string;
+  detailed_description: string;
+  category: 'web' | 'mobile' | 'software';
+  technologies: string;
+  github_url: string;
+  live_url: string;
+  image_url: string;
+  featured: boolean;
+};
+
 const Admin = () => {
   const { user, signOut } = useAuth();
   const { data: projects, isLoading } = useProjects();
@@ -21,8 +33,8 @@ const Admin = () => {
   const deleteProject = useDeleteProject();
 
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [editingProject, setEditingProject] = useState(null);
-  const [formData, setFormData] = useState({
+  const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [formData, setFormData] = useState<ProjectFormData>({
     title: "",
     description: "",
     detailed_description: "",
@@ -49,7 +61,7 @@ const Admin = () => {
     setEditingProject(null);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     const projectData = {
@@ -67,7 +79,7 @@ const Admin = () => {
       }
       resetForm();
       setIsCreateDialogOpen(false);
-    } catch (error) {
+    } catch (error: any) {
       toast({ 
         title: "Error", 
         description: error.message,
@@ -76,28 +88,28 @@ const Admin = () => {
     }
   };
 
-  const handleEdit = (project) => {
+  const handleEdit = (project: Project) => {
     setFormData({
       title: project.title,
-      description: project.description,
+      description: project.description || "",
       detailed_description: project.detailed_description || "",
       category: project.category,
-      technologies: project.technologies.join(', '),
+      technologies: project.technologies?.join(', ') || "",
       github_url: project.github_url || "",
       live_url: project.live_url || "",
       image_url: project.image_url || "",
-      featured: project.featured,
+      featured: project.featured || false,
     });
     setEditingProject(project);
     setIsCreateDialogOpen(true);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this project?")) {
       try {
         await deleteProject.mutateAsync(id);
         toast({ title: "Project deleted successfully!" });
-      } catch (error) {
+      } catch (error: any) {
         toast({ 
           title: "Error", 
           description: error.message,
@@ -196,7 +208,7 @@ const Admin = () => {
                     {project.featured && (
                       <Badge className="bg-yellow-600/20 text-yellow-300">Featured</Badge>
                     )}
-                    {project.technologies.map((tech) => (
+                    {project.technologies?.map((tech) => (
                       <Badge key={tech} variant="outline" className="border-gray-600 text-gray-300">
                         {tech}
                       </Badge>
@@ -221,12 +233,12 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     try {
       await signIn(email, password);
-    } catch (error) {
+    } catch (error: any) {
       toast({ 
         title: "Login failed", 
         description: error.message,
@@ -260,7 +272,14 @@ const LoginForm = () => {
   );
 };
 
-const ProjectForm = ({ formData, setFormData, onSubmit, isSubmitting }) => {
+interface ProjectFormProps {
+  formData: ProjectFormData;
+  setFormData: (data: ProjectFormData) => void;
+  onSubmit: (e: React.FormEvent) => void;
+  isSubmitting: boolean;
+}
+
+const ProjectForm = ({ formData, setFormData, onSubmit, isSubmitting }: ProjectFormProps) => {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <Input
@@ -280,7 +299,12 @@ const ProjectForm = ({ formData, setFormData, onSubmit, isSubmitting }) => {
         value={formData.detailed_description}
         onChange={(e) => setFormData({ ...formData, detailed_description: e.target.value })}
       />
-      <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+      <Select 
+        value={formData.category} 
+        onValueChange={(value: 'web' | 'mobile' | 'software') => 
+          setFormData({ ...formData, category: value })
+        }
+      >
         <SelectTrigger>
           <SelectValue placeholder="Select category" />
         </SelectTrigger>
@@ -314,7 +338,7 @@ const ProjectForm = ({ formData, setFormData, onSubmit, isSubmitting }) => {
         <Checkbox
           id="featured"
           checked={formData.featured}
-          onCheckedChange={(checked) => setFormData({ ...formData, featured: checked })}
+          onCheckedChange={(checked) => setFormData({ ...formData, featured: !!checked })}
         />
         <label htmlFor="featured" className="text-sm font-medium">
           Featured Project
