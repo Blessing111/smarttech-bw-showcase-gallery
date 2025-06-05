@@ -5,76 +5,15 @@ import { Github, ExternalLink, Mail, Linkedin, Code, Smartphone, Monitor } from 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useProjects } from "@/hooks/useProjects";
 
 const Index = () => {
   const [filter, setFilter] = useState("all");
-
-  const projects = [
-    {
-      id: 1,
-      title: "E-Commerce Platform",
-      description: "Full-stack web application with React, Node.js, and MongoDB",
-      category: "web",
-      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop",
-      technologies: ["React", "Node.js", "MongoDB", "Stripe"],
-      github: "#",
-      live: "#"
-    },
-    {
-      id: 2,
-      title: "Task Management Mobile App",
-      description: "Cross-platform mobile app built with React Native",
-      category: "mobile",
-      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=600&h=400&fit=crop",
-      technologies: ["React Native", "Firebase", "Redux"],
-      github: "#",
-      live: "#"
-    },
-    {
-      id: 3,
-      title: "Inventory Management System",
-      description: "Desktop application for small businesses",
-      category: "software",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop",
-      technologies: ["Electron", "SQLite", "Chart.js"],
-      github: "#",
-      live: "#"
-    },
-    {
-      id: 4,
-      title: "Portfolio Dashboard",
-      description: "Analytics dashboard for tracking portfolio performance",
-      category: "web",
-      image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&h=400&fit=crop",
-      technologies: ["Vue.js", "D3.js", "Express"],
-      github: "#",
-      live: "#"
-    },
-    {
-      id: 5,
-      title: "Fitness Tracker App",
-      description: "Mobile app for tracking workouts and nutrition",
-      category: "mobile",
-      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=600&h=400&fit=crop",
-      technologies: ["Flutter", "Dart", "Firebase"],
-      github: "#",
-      live: "#"
-    },
-    {
-      id: 6,
-      title: "Data Visualization Tool",
-      description: "Desktop software for complex data analysis",
-      category: "software",
-      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=600&h=400&fit=crop",
-      technologies: ["Python", "Tkinter", "Pandas"],
-      github: "#",
-      live: "#"
-    }
-  ];
+  const { data: projects, isLoading } = useProjects();
 
   const filteredProjects = filter === "all" 
     ? projects 
-    : projects.filter(project => project.category === filter);
+    : projects?.filter(project => project.category === filter);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
@@ -230,59 +169,76 @@ const Index = () => {
           </div>
 
           {/* Projects Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group"
-              >
-                <Card className="bg-white/10 border-white/20 backdrop-blur-lg overflow-hidden hover:bg-white/20 transition-all duration-300 transform group-hover:scale-105">
-                  <div className="relative overflow-hidden">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute top-4 right-4 flex gap-2">
-                      <motion.a
-                        whileHover={{ scale: 1.1 }}
-                        href={project.github}
-                        className="bg-black/50 p-2 rounded-full text-white hover:text-purple-400 transition-colors"
-                      >
-                        <Github size={18} />
-                      </motion.a>
-                      <motion.a
-                        whileHover={{ scale: 1.1 }}
-                        href={project.live}
-                        className="bg-black/50 p-2 rounded-full text-white hover:text-purple-400 transition-colors"
-                      >
-                        <ExternalLink size={18} />
-                      </motion.a>
+          {isLoading ? (
+            <div className="text-center text-white">Loading projects...</div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredProjects?.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="group"
+                >
+                  <Card className="bg-white/10 border-white/20 backdrop-blur-lg overflow-hidden hover:bg-white/20 transition-all duration-300 transform group-hover:scale-105">
+                    <div className="relative overflow-hidden">
+                      <img
+                        src={project.image_url || "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop"}
+                        alt={project.title}
+                        className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <div className="absolute top-4 right-4 flex gap-2">
+                        {project.github_url && (
+                          <motion.a
+                            whileHover={{ scale: 1.1 }}
+                            href={project.github_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-black/50 p-2 rounded-full text-white hover:text-purple-400 transition-colors"
+                          >
+                            <Github size={18} />
+                          </motion.a>
+                        )}
+                        {project.live_url && project.live_url !== '#' && (
+                          <motion.a
+                            whileHover={{ scale: 1.1 }}
+                            href={project.live_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-black/50 p-2 rounded-full text-white hover:text-purple-400 transition-colors"
+                          >
+                            <ExternalLink size={18} />
+                          </motion.a>
+                        )}
+                      </div>
+                      {project.featured && (
+                        <div className="absolute top-4 left-4">
+                          <Badge className="bg-yellow-600/80 text-yellow-100">Featured</Badge>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                  <CardHeader>
-                    <CardTitle className="text-white">{project.title}</CardTitle>
-                    <CardDescription className="text-gray-300">
-                      {project.description}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech) => (
-                        <Badge key={tech} variant="secondary" className="bg-purple-600/20 text-purple-300 border-purple-600/30">
-                          {tech}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
+                    <CardHeader>
+                      <CardTitle className="text-white">{project.title}</CardTitle>
+                      <CardDescription className="text-gray-300">
+                        {project.description}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex flex-wrap gap-2">
+                        {project.technologies.map((tech) => (
+                          <Badge key={tech} variant="secondary" className="bg-purple-600/20 text-purple-300 border-purple-600/30">
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
