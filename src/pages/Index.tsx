@@ -1,7 +1,8 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Github, ExternalLink, Mail, Phone, MapPin, Settings } from "lucide-react";
+import { Github, ExternalLink, Mail, Phone, MapPin, Settings, Clock, DollarSign, TrendingUp } from "lucide-react";
 import { useProjects } from "@/hooks/useProjects";
 import { Link } from "react-router-dom";
 
@@ -29,73 +30,152 @@ const Index = () => {
       {/* Hero Section */}
       <section className="container mx-auto px-6 py-12 md:py-24 flex flex-col items-center text-center">
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-          Full-Stack Developer & Software Engineer
+          We Automate Your Business Tasks
         </h1>
-        <p className="text-xl text-gray-300 max-w-3xl mb-8">
-          I build innovative web applications, mobile apps, and software solutions
-          that solve real-world problems.
+        <p className="text-xl text-gray-300 max-w-4xl mb-8">
+          Using AI tools like ChatGPT, we save businesses 30+ hours a month and improve efficiency 
+          without hiring more staff. You're not buying "AI" — you're buying more free time, 
+          lower operating costs, and instant productivity wins.
         </p>
+        <div className="grid md:grid-cols-3 gap-6 mb-8 max-w-4xl">
+          <div className="flex items-center justify-center gap-3 bg-white/10 p-4 rounded-lg">
+            <Clock className="h-8 w-8 text-green-400" />
+            <span className="text-white font-semibold">More Free Time</span>
+          </div>
+          <div className="flex items-center justify-center gap-3 bg-white/10 p-4 rounded-lg">
+            <DollarSign className="h-8 w-8 text-green-400" />
+            <span className="text-white font-semibold">Lower Operating Costs</span>
+          </div>
+          <div className="flex items-center justify-center gap-3 bg-white/10 p-4 rounded-lg">
+            <TrendingUp className="h-8 w-8 text-green-400" />
+            <span className="text-white font-semibold">Instant Productivity Wins</span>
+          </div>
+        </div>
         <div className="flex gap-4">
           <Button className="bg-gradient-to-r from-purple-600 to-blue-600">
-            View My Work
+            View Our Services
           </Button>
           <Button variant="outline" className="text-white border-white/20">
-            Contact Me
+            Get Free Consultation
           </Button>
         </div>
       </section>
 
-      {/* About Section */}
+      {/* Services Section */}
       <section className="container mx-auto px-6 py-12 md:py-24">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">About Me</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">Our AI Automation Services</h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          <Card className="bg-white/5 border-white/10">
+            <CardHeader>
+              <CardTitle className="text-white">Auto-Reply Systems</CardTitle>
+              <CardDescription className="text-gray-300">
+                WhatsApp, Email & Social Media Automation
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-300 mb-4">
+                We'll set up a ChatGPT-powered system that answers customer questions instantly, 
+                24/7, across all your communication channels.
+              </p>
+              <Badge className="bg-green-600/20 text-green-300">Save 20+ hours/month</Badge>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/5 border-white/10">
+            <CardHeader>
+              <CardTitle className="text-white">Internal SOP Generators</CardTitle>
+              <CardDescription className="text-gray-300">
+                Turn Chaos Into Clear Processes
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-300 mb-4">
+                Transform messy voice notes and scattered processes into clean, 
+                repeatable steps — automatically written and organized.
+              </p>
+              <Badge className="bg-green-600/20 text-green-300">Save 15+ hours/month</Badge>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/5 border-white/10">
+            <CardHeader>
+              <CardTitle className="text-white">Content Generator</CardTitle>
+              <CardDescription className="text-gray-300">
+                Social Media & Marketing Automation
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-300 mb-4">
+                Automated content planner for social media plus caption generator 
+                to save 20+ hours monthly on marketing tasks.
+              </p>
+              <Badge className="bg-green-600/20 text-green-300">Save 20+ hours/month</Badge>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/5 border-white/10">
+            <CardHeader>
+              <CardTitle className="text-white">AI Business Dashboards</CardTitle>
+              <CardDescription className="text-gray-300">
+                Automated Reporting & Insights
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-300 mb-4">
+                Auto-generate sales reports, meeting summaries, and customer feedback 
+                insights to make data-driven decisions faster.
+              </p>
+              <Badge className="bg-green-600/20 text-green-300">Save 10+ hours/month</Badge>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Results Section */}
+      <section className="container mx-auto px-6 py-12 md:py-24 bg-black/20">
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">Why Choose SmartTech BW?</h2>
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <p className="text-gray-300 mb-4">
-              I'm a passionate full-stack developer with expertise in building modern web applications,
-              mobile apps, and software solutions. With a strong foundation in both front-end and back-end
-              technologies, I create seamless user experiences backed by robust architecture.
-            </p>
-            <p className="text-gray-300 mb-4">
-              My technical toolkit includes React, Node.js, TypeScript, Python, and various cloud services.
-              I'm dedicated to writing clean, maintainable code and staying current with industry best practices.
-            </p>
-            <div className="flex flex-wrap gap-2 mt-6">
-              <Badge className="bg-purple-600/20 text-purple-300">React</Badge>
-              <Badge className="bg-purple-600/20 text-purple-300">Node.js</Badge>
-              <Badge className="bg-purple-600/20 text-purple-300">TypeScript</Badge>
-              <Badge className="bg-purple-600/20 text-purple-300">Python</Badge>
-              <Badge className="bg-purple-600/20 text-purple-300">AWS</Badge>
-              <Badge className="bg-purple-600/20 text-purple-300">Firebase</Badge>
-              <Badge className="bg-purple-600/20 text-purple-300">MongoDB</Badge>
-              <Badge className="bg-purple-600/20 text-purple-300">PostgreSQL</Badge>
-            </div>
-          </div>
-          <div className="bg-white/5 border border-white/10 rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-white mb-4">Experience Highlights</h3>
+            <h3 className="text-2xl font-semibold text-white mb-6">Real Results for Real Businesses</h3>
             <ul className="space-y-4">
-              <li className="text-gray-300">
-                <span className="font-medium text-white">Senior Developer</span> - Led development of enterprise web applications
+              <li className="flex items-start text-gray-300">
+                <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <span><strong className="text-white">30+ Hours Saved Monthly:</strong> Clients report significant time savings on repetitive tasks</span>
               </li>
-              <li className="text-gray-300">
-                <span className="font-medium text-white">Technical Lead</span> - Managed team of 5 developers on client projects
+              <li className="flex items-start text-gray-300">
+                <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <span><strong className="text-white">No New Hires Needed:</strong> Increase productivity without expanding your team</span>
               </li>
-              <li className="text-gray-300">
-                <span className="font-medium text-white">Freelance Consultant</span> - Provided technical solutions for startups
+              <li className="flex items-start text-gray-300">
+                <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <span><strong className="text-white">Quick Implementation:</strong> Most systems are live within 1-2 weeks</span>
               </li>
-              <li className="text-gray-300">
-                <span className="font-medium text-white">Open Source Contributor</span> - Active in several developer communities
+              <li className="flex items-start text-gray-300">
+                <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <span><strong className="text-white">Ongoing Support:</strong> We maintain and optimize your systems continuously</span>
               </li>
             </ul>
+          </div>
+          <div className="bg-white/5 border border-white/10 rounded-lg p-6">
+            <h3 className="text-xl font-semibold text-white mb-4">Our Expertise</h3>
+            <div className="flex flex-wrap gap-2">
+              <Badge className="bg-purple-600/20 text-purple-300">ChatGPT Integration</Badge>
+              <Badge className="bg-purple-600/20 text-purple-300">WhatsApp API</Badge>
+              <Badge className="bg-purple-600/20 text-purple-300">Email Automation</Badge>
+              <Badge className="bg-purple-600/20 text-purple-300">Social Media APIs</Badge>
+              <Badge className="bg-purple-600/20 text-purple-300">Process Automation</Badge>
+              <Badge className="bg-purple-600/20 text-purple-300">Dashboard Development</Badge>
+              <Badge className="bg-purple-600/20 text-purple-300">AI Model Training</Badge>
+              <Badge className="bg-purple-600/20 text-purple-300">Business Intelligence</Badge>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Featured Projects Section */}
-      <section className="container mx-auto px-6 py-12 md:py-24">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">Featured Projects</h2>
-        {isLoading ? (
-          <div className="text-center text-gray-300">Loading projects...</div>
-        ) : featuredProjects.length > 0 ? (
+      {featuredProjects.length > 0 && (
+        <section className="container mx-auto px-6 py-12 md:py-24">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">Client Success Stories</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredProjects.map((project) => (
               <Card key={project.id} className="bg-white/5 border-white/10 overflow-hidden">
@@ -138,7 +218,7 @@ const Index = () => {
                       <Button size="sm" asChild>
                         <a href={project.live_url} target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="h-4 w-4 mr-2" />
-                          Live Demo
+                          View Case Study
                         </a>
                       </Button>
                     )}
@@ -147,17 +227,13 @@ const Index = () => {
               </Card>
             ))}
           </div>
-        ) : (
-          <div className="text-center text-gray-300">No featured projects yet.</div>
-        )}
-      </section>
+        </section>
+      )}
 
       {/* All Projects Section */}
-      <section className="container mx-auto px-6 py-12 md:py-24 bg-black/20">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">All Projects</h2>
-        {isLoading ? (
-          <div className="text-center text-gray-300">Loading projects...</div>
-        ) : projects && projects.length > 0 ? (
+      {projects && projects.length > 0 && (
+        <section className="container mx-auto px-6 py-12 md:py-24 bg-black/20">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">All Projects</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project) => (
               <Card key={project.id} className="bg-white/5 border-white/10">
@@ -200,19 +276,17 @@ const Index = () => {
               </Card>
             ))}
           </div>
-        ) : (
-          <div className="text-center text-gray-300">No projects found.</div>
-        )}
-      </section>
+        </section>
+      )}
 
       {/* Contact Section */}
       <section className="container mx-auto px-6 py-12 md:py-24">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">Get In Touch</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">Ready to Automate Your Business?</h2>
         <div className="grid md:grid-cols-2 gap-12">
           <div>
             <p className="text-gray-300 mb-6">
-              I'm always interested in hearing about new projects and opportunities.
-              Whether you have a question or just want to say hi, feel free to reach out!
+              Get a free consultation to see how we can save your business 30+ hours per month 
+              with AI automation. No technical jargon — just practical solutions that work.
             </p>
             <div className="space-y-4">
               <div className="flex items-center text-gray-300">
@@ -221,7 +295,7 @@ const Index = () => {
               </div>
               <div className="flex items-center text-gray-300">
                 <Phone className="h-5 w-5 mr-3 text-purple-400" />
-                <span>+123 456 7890</span>
+                <span>+267 123 4567</span>
               </div>
               <div className="flex items-center text-gray-300">
                 <MapPin className="h-5 w-5 mr-3 text-purple-400" />
@@ -230,6 +304,7 @@ const Index = () => {
             </div>
           </div>
           <div className="bg-white/5 border border-white/10 rounded-lg p-6">
+            <h3 className="text-xl font-semibold text-white mb-4">Get Your Free Automation Audit</h3>
             <form className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -252,25 +327,25 @@ const Index = () => {
                 </div>
               </div>
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-1">Subject</label>
+                <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-1">Company</label>
                 <input
                   type="text"
-                  id="subject"
+                  id="company"
                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white"
-                  placeholder="Subject"
+                  placeholder="Your company"
                 />
               </div>
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">Message</label>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">What tasks take up most of your time?</label>
                 <textarea
                   id="message"
                   rows={4}
                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white"
-                  placeholder="Your message"
+                  placeholder="Tell us about your biggest time-consuming tasks..."
                 ></textarea>
               </div>
               <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-600">
-                Send Message
+                Get Free Consultation
               </Button>
             </form>
           </div>
