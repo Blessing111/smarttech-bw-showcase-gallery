@@ -2,7 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Github, ExternalLink, Mail, Phone, MapPin, Settings, Clock, DollarSign, TrendingUp, MessageCircle, BarChart3, FileText, Wrench, CheckCircle, Star, ArrowRight, Zap, Users, Target, Shield, Bot } from "lucide-react";
+import { Github, ExternalLink, Mail, Phone, MapPin, Settings, Clock, DollarSign, TrendingUp, MessageCircle, BarChart3, FileText, Wrench, CheckCircle, Star, ArrowRight, Zap, Users, Target, Shield, Bot, Calendar } from "lucide-react";
 import { useProjects } from "@/hooks/useProjects";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -20,9 +20,10 @@ const Index = () => {
     seconds: 59
   });
 
-  // WhatsApp number
+  // WhatsApp number and Calendly link
   const whatsappNumber = "26775981075";
   const whatsappUrl = `https://wa.me/${whatsappNumber}`;
+  const calendlyUrl = "https://calendly.com/otengbless";
 
   // Form state
   const [formData, setFormData] = useState({
@@ -52,9 +53,18 @@ const Index = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Handle Calendly booking
+  const handleCalendlyClick = () => {
+    window.open(calendlyUrl, '_blank');
+    toast({
+      title: "Opening Calendly",
+      description: "Book your free consultation slot now!",
+    });
+  };
+
   // Handle WhatsApp button clicks
   const handleWhatsAppClick = (message = "") => {
-    const defaultMessage = "Hi! I'm interested in automating my business tasks with AI. Can we schedule a free demo?";
+    const defaultMessage = "I want to claim the exclusive free SmartTech BW website revamp. Let's get started.";
     const encodedMessage = encodeURIComponent(message || defaultMessage);
     window.open(`${whatsappUrl}?text=${encodedMessage}`, '_blank');
     
@@ -121,11 +131,11 @@ I'd like to book a free automation demo!`;
             <div className="text-2xl font-bold text-white">SmartTech BW</div>
             <div className="flex gap-4">
               <Button 
-                onClick={() => handleWhatsAppClick("I want a free AI automation demo!")}
+                onClick={handleCalendlyClick}
                 className="bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:scale-105 transition-transform"
               >
-                <MessageCircle className="h-4 w-4 mr-2" />
-                Get Free Demo
+                <Calendar className="h-4 w-4 mr-2" />
+                Book Free Call
               </Button>
               <Link to="/admin">
                 <Button variant="outline" size="sm" className="text-white border-white/20 hover:bg-white/10">
@@ -138,7 +148,7 @@ I'd like to book a free automation demo!`;
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero Section with Enhanced CTA */}
       <section className="container mx-auto px-6 pt-32 pb-24 flex flex-col items-center text-center">
         <div className="flex gap-2 mb-6">
           <Badge className="bg-green-500/20 text-green-400 border-green-500/30 animate-pulse">
@@ -167,24 +177,58 @@ I'd like to book a free automation demo!`;
           You're not just using "AI" — you're unlocking more free time, lower overheads, and faster results.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 mb-12">
-          <Button 
-            size="lg" 
-            onClick={() => handleWhatsAppClick("I want to see how you can automate my business!")}
-            className="bg-gradient-to-r from-green-600 to-green-500 text-xl px-12 py-6 hover:scale-105 transition-transform"
-          >
-            <MessageCircle className="h-6 w-6 mr-3" />
-            Book Free Demo
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            onClick={() => handleWhatsAppClick()}
-            className="text-white border-white/20 text-xl px-12 py-6 hover:bg-white/10"
-          >
-            <Phone className="h-6 w-6 mr-3" />
-            WhatsApp: +267 759 81075
-          </Button>
+        {/* Enhanced CTA Section */}
+        <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 rounded-2xl p-8 mb-8 max-w-4xl">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              🔥 Only 3 Exclusive Revamps Available for Botswana Brands
+            </h2>
+            <p className="text-xl text-gray-300">
+              Claim your free website revamp before the countdown hits zero!
+            </p>
+          </div>
+          
+          {/* Countdown Timer */}
+          <div className="bg-black/30 rounded-lg p-6 mb-8 inline-block">
+            <div className="text-sm text-gray-300 mb-2">Offer expires in:</div>
+            <div className="flex gap-4 text-center">
+              <div className="bg-red-500/20 rounded-lg p-4 min-w-[80px]">
+                <div className="text-3xl font-bold text-white">{timeLeft.hours.toString().padStart(2, '0')}</div>
+                <div className="text-sm text-gray-300">Hours</div>
+              </div>
+              <div className="bg-red-500/20 rounded-lg p-4 min-w-[80px]">
+                <div className="text-3xl font-bold text-white">{timeLeft.minutes.toString().padStart(2, '0')}</div>
+                <div className="text-sm text-gray-300">Minutes</div>
+              </div>
+              <div className="bg-red-500/20 rounded-lg p-4 min-w-[80px]">
+                <div className="text-3xl font-bold text-white">{timeLeft.seconds.toString().padStart(2, '0')}</div>
+                <div className="text-sm text-gray-300">Seconds</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Primary CTA Button */}
+          <div className="space-y-4">
+            <Button 
+              size="lg" 
+              onClick={handleCalendlyClick}
+              className="bg-gradient-to-r from-green-600 to-green-500 text-xl px-12 py-6 hover:scale-105 transition-transform w-full max-w-md"
+            >
+              <Calendar className="h-6 w-6 mr-3" />
+              Claim Your Free Revamp Now
+            </Button>
+            
+            {/* Secondary Options */}
+            <div className="text-gray-300 text-sm">
+              Prefer WhatsApp? 
+              <button 
+                onClick={() => handleWhatsAppClick("I want to claim the exclusive free SmartTech BW website revamp. Let's get started.")}
+                className="text-green-400 hover:text-green-300 ml-2 underline"
+              >
+                Click here instead
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Social Proof */}
@@ -328,68 +372,13 @@ I'd like to book a free automation demo!`;
                 ))}
               </ul>
               <Button 
-                onClick={() => handleWhatsAppClick(`I'm interested in ${service.title}. Can we discuss pricing and setup?`)}
+                onClick={handleCalendlyClick}
                 className="w-full bg-gradient-to-r from-purple-600 to-blue-600"
               >
-                Get Started with This Service
+                Book Free Consultation
               </Button>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* Urgency Section with Countdown */}
-      <section className="container mx-auto px-6 py-16">
-        <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 rounded-2xl p-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            ⚡ Limited Time: Free Setup Worth P5,000
-          </h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            This month only: Get your first AI automation system set up completely free. 
-            Usually costs P5,000, but we're waiving the setup fee for the first 10 businesses.
-          </p>
-          
-          {/* Countdown Timer */}
-          <div className="bg-black/30 rounded-lg p-6 mb-8 inline-block">
-            <div className="text-sm text-gray-300 mb-2">Offer expires in:</div>
-            <div className="flex gap-4 text-center">
-              <div className="bg-red-500/20 rounded-lg p-4 min-w-[80px]">
-                <div className="text-3xl font-bold text-white">{timeLeft.hours.toString().padStart(2, '0')}</div>
-                <div className="text-sm text-gray-300">Hours</div>
-              </div>
-              <div className="bg-red-500/20 rounded-lg p-4 min-w-[80px]">
-                <div className="text-3xl font-bold text-white">{timeLeft.minutes.toString().padStart(2, '0')}</div>
-                <div className="text-sm text-gray-300">Minutes</div>
-              </div>
-              <div className="bg-red-500/20 rounded-lg p-4 min-w-[80px]">
-                <div className="text-3xl font-bold text-white">{timeLeft.seconds.toString().padStart(2, '0')}</div>
-                <div className="text-sm text-gray-300">Seconds</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-center gap-8 mb-8 flex-wrap">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white">Only 3</div>
-              <div className="text-gray-300">Spots Left</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white">24-48 Hours</div>
-              <div className="text-gray-300">Setup Time</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white">P0</div>
-              <div className="text-gray-300">Setup Cost</div>
-            </div>
-          </div>
-          <Button 
-            size="lg" 
-            onClick={() => handleWhatsAppClick("I want to claim my free P5,000 setup before the timer runs out!")}
-            className="bg-gradient-to-r from-orange-500 to-red-500 text-xl px-12 py-6 hover:scale-105 transition-transform"
-          >
-            <Target className="h-6 w-6 mr-3" />
-            Claim Your Free Setup Now
-          </Button>
         </div>
       </section>
 
@@ -397,29 +386,29 @@ I'd like to book a free automation demo!`;
       <section className="container mx-auto px-6 py-24">
         <div className="text-center max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
-            📞 Want to see how we can automate your business?
+            📞 Ready to see how we can automate your business?
           </h2>
           <p className="text-2xl text-gray-300 mb-12">
-            Get a <strong className="text-green-400">free AI automation demo</strong> today
+            Get a <strong className="text-green-400">free AI automation consultation</strong> today
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
             <Button 
               size="lg" 
-              onClick={() => handleWhatsAppClick("I want to book a free AI automation demo!")}
+              onClick={handleCalendlyClick}
               className="bg-gradient-to-r from-green-600 to-green-500 text-xl px-12 py-6 hover:scale-105 transition-transform"
             >
-              <MessageCircle className="h-6 w-6 mr-3" />
-              Book Free Demo
+              <Calendar className="h-6 w-6 mr-3" />
+              Book Free Consultation
             </Button>
             <Button 
               variant="outline" 
               size="lg" 
-              onClick={handlePhoneCall}
+              onClick={() => handleWhatsAppClick()}
               className="text-white border-white/20 text-xl px-12 py-6 hover:bg-white/10"
             >
-              <Phone className="h-6 w-6 mr-3" />
-              Call: +267 759 81075
+              <MessageCircle className="h-6 w-6 mr-3" />
+              WhatsApp: +267 759 81075
             </Button>
           </div>
 
@@ -453,12 +442,18 @@ I'd like to book a free automation demo!`;
       <section className="container mx-auto px-6 py-16 bg-black/30">
         <div className="grid md:grid-cols-2 gap-12">
           <div>
-            <h2 className="text-3xl font-bold text-white mb-6">Get Your Free Automation Demo</h2>
+            <h2 className="text-3xl font-bold text-white mb-6">Get Your Free Automation Consultation</h2>
             <p className="text-gray-300 mb-8 text-lg">
               Tell us about your biggest time-wasters and we'll show you exactly how to automate them.
               No sales pitch – just a genuine assessment of how AI can help your business.
             </p>
             <div className="space-y-4">
+              <div className="flex items-center text-gray-300">
+                <Calendar className="h-6 w-6 mr-4 text-purple-400" />
+                <button onClick={handleCalendlyClick} className="text-lg hover:text-white transition-colors">
+                  Book via Calendly: calendly.com/otengbless
+                </button>
+              </div>
               <div className="flex items-center text-gray-300">
                 <Mail className="h-6 w-6 mr-4 text-purple-400" />
                 <a href="mailto:info@smarttech-bw.com" className="text-lg hover:text-white transition-colors">
@@ -538,7 +533,7 @@ I'd like to book a free automation demo!`;
               </div>
               <Button type="submit" className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-lg py-4 hover:scale-105 transition-transform">
                 <ArrowRight className="h-5 w-5 mr-2" />
-                Get My Free Automation Demo
+                Send WhatsApp Message
               </Button>
             </form>
           </div>
@@ -552,6 +547,9 @@ I'd like to book a free automation demo!`;
             © {new Date().getFullYear()} SmartTech BW. Automating Botswana's businesses, one task at a time.
           </div>
           <div className="flex gap-4">
+            <button onClick={handleCalendlyClick} className="text-gray-300 hover:text-white transition-colors">
+              <Calendar className="h-6 w-6" />
+            </button>
             <button onClick={() => handleWhatsAppClick()} className="text-gray-300 hover:text-white transition-colors">
               <MessageCircle className="h-6 w-6" />
             </button>
