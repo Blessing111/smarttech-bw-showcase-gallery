@@ -162,11 +162,11 @@ Ready to book consultation immediately.`;
           </Badge>
         </div>
         
-        {/* Tightened hero copy - under 20 words */}
+        {/* Updated hero copy with stronger messaging */}
         <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-6 md:mb-8 leading-tight">
-          Only <span className="text-green-400">{offersLeft} Elite Brands</span> Qualify.
+          <span className="text-red-400">Botswana's Digital Future</span> Starts With You.
           <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">Claim Yours Before Time Runs Out.</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">Book Now or Watch Your Market Share Disappear.</span>
         </h1>
 
         {/* Enhanced CTA Section with Micro-animations */}
@@ -178,12 +178,12 @@ Ready to book consultation immediately.`;
             <div className="flex items-center justify-center gap-2 mb-2">
               {isUrgent && <AlertTriangle className="h-5 w-5 text-red-400 animate-bounce" />}
               <h2 className="text-2xl md:text-3xl font-bold text-white">
-                🔥 Only {offersLeft} Exclusive Spots Left
+                🔥 Only {offersLeft} Elite Brands Get This Upgrade
               </h2>
               {isUrgent && <AlertTriangle className="h-5 w-5 text-red-400 animate-bounce" />}
             </div>
             <p className="text-lg md:text-xl text-gray-300">
-              When this timer hits zero, so does your chance.
+              Don't let your competition leave you behind while you hesitate.
             </p>
           </div>
           
@@ -191,7 +191,7 @@ Ready to book consultation immediately.`;
           <div className="bg-black/50 rounded-lg p-4 md:p-6 mb-6 md:mb-8 inline-block border border-red-500/30">
             <div className="text-sm text-gray-300 mb-2 flex items-center justify-center gap-2">
               <Clock className="h-4 w-4 animate-pulse" />
-              Offer expires in:
+              Your window closes in:
             </div>
             <div className="flex gap-2 md:gap-4 text-center">
               <div className={`bg-red-500/30 rounded-lg p-3 md:p-4 min-w-[60px] md:min-w-[80px] border border-red-500/50 ${timeLeft.hours === 0 && timeLeft.minutes < 10 ? 'animate-pulse border-red-400' : ''}`}>
@@ -209,7 +209,7 @@ Ready to book consultation immediately.`;
             </div>
           </div>
 
-          {/* Primary CTA - Enhanced with animations */}
+          {/* Updated Primary CTA with stronger copy */}
           <div className="space-y-4">
             {!showLeadForm ? (
               <>
@@ -219,7 +219,7 @@ Ready to book consultation immediately.`;
                   className={`bg-gradient-to-r from-green-600 to-green-500 text-lg md:text-xl px-8 md:px-12 py-4 md:py-6 hover:scale-110 transition-all duration-300 w-full max-w-md touch-manipulation shadow-2xl ${pulseButton ? 'animate-pulse ring-4 ring-green-400/50' : ''}`}
                 >
                   <Calendar className="h-5 w-5 md:h-6 md:w-6 mr-2 md:mr-3" />
-                  Claim Your Elite Revamp Now
+                  Secure Your Automation Upgrade
                 </Button>
                 
                 {/* Quick lead capture option */}
@@ -316,6 +316,141 @@ Ready to book consultation immediately.`;
               <div className="text-lg font-semibold text-blue-400 mb-1">24hr Turnaround</div>
               <div className="text-gray-300 text-sm">While others take weeks</div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* New Social Proof Testimonial Section */}
+      <section className="container mx-auto px-4 md:px-6 py-12 md:py-16 bg-black/10">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
+            💬 What Elite Brands Say About Us
+          </h2>
+          <div className="bg-white/5 border border-white/10 rounded-xl p-8 mb-8">
+            <div className="flex items-center gap-1 mb-4 justify-center">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+              ))}
+            </div>
+            <blockquote className="text-xl md:text-2xl text-gray-200 mb-6 italic">
+              "SmartTech BW transformed our customer service from chaos to 24/7 automation. 
+              Our response time went from hours to seconds, and customer satisfaction jumped 300%. 
+              They delivered in 48 hours what other agencies promised in months."
+            </blockquote>
+            <div className="text-green-400 font-semibold text-lg">
+              - Sarah M., CEO of Gaborone Premium Retail
+            </div>
+            <div className="text-gray-400 text-sm mt-2">
+              Revenue increased by 250% in 3 months after automation
+            </div>
+          </div>
+          
+          {/* TikTok embed placeholder */}
+          <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-xl p-6">
+            <h3 className="text-xl font-semibold text-white mb-4">🎥 See Our Work in Action</h3>
+            <div className="bg-black/40 rounded-lg p-8 border border-white/10">
+              <div className="text-6xl mb-4">📱</div>
+              <p className="text-gray-300 mb-4">Watch our latest TikTok showcasing automation magic</p>
+              <Button 
+                onClick={() => window.open('https://tiktok.com/@smarttechbw', '_blank')}
+                className="bg-gradient-to-r from-pink-600 to-purple-600"
+              >
+                View on TikTok
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* NEW: 3 Brands We're Calling Out Section */}
+      <section className="container mx-auto px-4 md:px-6 py-12 md:py-16 bg-gradient-to-r from-red-900/20 to-orange-900/20">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            🎯 3 Brands We're Calling Out
+          </h2>
+          <p className="text-xl md:text-2xl text-gray-300 mb-12">
+            We're offering a full revamp for 3 brands with bad landing pages. 
+            If that's you… <span className="text-red-400 font-bold">claim it now or watch your market share disappear.</span>
+          </p>
+          
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            <div className="bg-white/5 border-2 border-red-500/50 rounded-xl p-6 hover:bg-white/10 transition-all">
+              <div className="text-3xl mb-4">🏢</div>
+              <h3 className="text-xl font-semibold text-white mb-3">DIS (Department of Information Services)</h3>
+              <p className="text-gray-300 mb-4 text-sm">dis.org.bw</p>
+              <div className="bg-red-500/20 border border-red-500/40 rounded-lg p-3 mb-4">
+                <p className="text-red-300 text-sm font-semibold">Issues Spotted:</p>
+                <ul className="text-gray-300 text-xs text-left mt-2 space-y-1">
+                  <li>• Outdated design from 2010</li>
+                  <li>• Poor mobile experience</li>
+                  <li>• Confusing navigation</li>
+                </ul>
+              </div>
+              <Button 
+                onClick={handleCalendlyClick}
+                className="w-full bg-red-600 hover:bg-red-500"
+              >
+                Claim This Revamp
+              </Button>
+            </div>
+
+            <div className="bg-white/5 border-2 border-orange-500/50 rounded-xl p-6 hover:bg-white/10 transition-all">
+              <div className="text-3xl mb-4">🏦</div>
+              <h3 className="text-xl font-semibold text-white mb-3">Local Bank X</h3>
+              <p className="text-gray-300 mb-4 text-sm">Banking sector needs disruption</p>
+              <div className="bg-orange-500/20 border border-orange-500/40 rounded-lg p-3 mb-4">
+                <p className="text-orange-300 text-sm font-semibold">Issues Spotted:</p>
+                <ul className="text-gray-300 text-xs text-left mt-2 space-y-1">
+                  <li>• Zero automation</li>
+                  <li>• Customer service delays</li>
+                  <li>• Manual processes everywhere</li>
+                </ul>
+              </div>
+              <Button 
+                onClick={handleCalendlyClick}
+                className="w-full bg-orange-600 hover:bg-orange-500"
+              >
+                Claim This Spot
+              </Button>
+            </div>
+
+            <div className="bg-white/5 border-2 border-yellow-500/50 rounded-xl p-6 hover:bg-white/10 transition-all">
+              <div className="text-3xl mb-4">🛍️</div>
+              <h3 className="text-xl font-semibold text-white mb-3">Retail Chain Y</h3>
+              <p className="text-gray-300 mb-4 text-sm">Losing to online competitors</p>
+              <div className="bg-yellow-500/20 border border-yellow-500/40 rounded-lg p-3 mb-4">
+                <p className="text-yellow-300 text-sm font-semibold">Issues Spotted:</p>
+                <ul className="text-gray-300 text-xs text-left mt-2 space-y-1">
+                  <li>• No online presence</li>
+                  <li>• Inventory chaos</li>
+                  <li>• Lost customer data</li>
+                </ul>
+              </div>
+              <Button 
+                onClick={handleCalendlyClick}
+                className="w-full bg-yellow-600 hover:bg-yellow-500"
+              >
+                Claim This Upgrade
+              </Button>
+            </div>
+          </div>
+
+          <div className="bg-black/40 border border-red-500/30 rounded-xl p-8">
+            <h3 className="text-2xl font-bold text-white mb-4">
+              ⚠️ Don't See Your Brand Listed?
+            </h3>
+            <p className="text-gray-300 mb-6">
+              Good. That means you still have time to fix your digital presence before we call you out publicly. 
+              But this window won't stay open forever.
+            </p>
+            <Button 
+              size="lg"
+              onClick={handleCalendlyClick}
+              className="bg-gradient-to-r from-green-600 to-green-500 text-xl px-12 py-6"
+            >
+              <Shield className="h-6 w-6 mr-3" />
+              Protect Your Brand Now
+            </Button>
           </div>
         </div>
       </section>
@@ -452,10 +587,10 @@ Ready to book consultation immediately.`;
       <section className="container mx-auto px-4 md:px-6 py-16 md:py-24">
         <div className="text-center max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 md:mb-8">
-            📞 Ready to see how we can automate your business?
+            📞 Let's Revamp Before Your Brand Gets Forgotten
           </h2>
           <p className="text-xl md:text-2xl text-gray-300 mb-8 md:mb-12">
-            Get a <strong className="text-green-400">free AI automation consultation</strong> today
+            Get your <strong className="text-green-400">free digital transformation consultation</strong> today
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center mb-8 md:mb-12">
