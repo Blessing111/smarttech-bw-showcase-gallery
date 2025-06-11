@@ -6,6 +6,11 @@ import { useProjects } from "@/hooks/useProjects";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
+import Navigation from "@/components/Navigation";
+import AboutSection from "@/components/AboutSection";
+import SocialShare from "@/components/SocialShare";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const Index = () => {
   const { data: projects, isLoading } = useProjects();
@@ -138,39 +143,11 @@ Ready to book consultation immediately.`;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Fixed Navigation - Enhanced */}
-      <nav className="fixed top-0 w-full z-50 bg-black/30 backdrop-blur-xl border-b border-white/10">
-        <div className="container mx-auto px-4 md:px-6 py-3 md:py-4">
-          <div className="flex justify-between items-center">
-            <div className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
-              <Bot className="h-6 w-6 text-purple-400" />
-              SmartTech BW
-              <Badge className="bg-green-500/20 text-green-400 border-green-500/30 text-xs animate-pulse">
-                Elite
-              </Badge>
-            </div>
-            <div className="flex gap-2 md:gap-4">
-              <Button 
-                onClick={handleCalendlyClick}
-                size="sm"
-                className="bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:scale-105 transition-transform text-xs md:text-sm"
-              >
-                <Calendar className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
-                Book Call
-              </Button>
-              <Link to="/admin">
-                <Button variant="outline" size="sm" className="text-white border-white/20 hover:bg-white/10 text-xs md:text-sm">
-                  <Settings className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
-                  Admin
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      {/* Enhanced Navigation */}
+      <Navigation />
 
-      {/* Hero Section - Tightened & Enhanced */}
-      <section className="container mx-auto px-4 md:px-6 pt-24 md:pt-32 pb-16 md:pb-24 flex flex-col items-center text-center">
+      {/* Hero Section with ID for navigation */}
+      <section id="home" className="container mx-auto px-4 md:px-6 pt-24 md:pt-32 pb-16 md:pb-24 flex flex-col items-center text-center">
         {/* Enhanced Trust Badges */}
         <div className="flex flex-wrap gap-2 mb-4 md:mb-6 justify-center">
           <Badge className="bg-green-500/20 text-green-400 border-green-500/30 animate-pulse text-xs md:text-sm">
@@ -270,30 +247,30 @@ Ready to book consultation immediately.`;
               <div className="bg-black/40 rounded-lg p-6 max-w-md mx-auto">
                 <h3 className="text-xl font-semibold text-white mb-4">Secure Your Spot (30 seconds)</h3>
                 <form onSubmit={handleLeadCapture} className="space-y-4">
-                  <input
+                  <Input
                     type="text"
                     id="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400"
+                    className="w-full bg-white/10 border-white/20 text-white placeholder:text-gray-400"
                     placeholder="Your name*"
                     required
                   />
-                  <input
+                  <Input
                     type="tel"
                     id="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400"
+                    className="w-full bg-white/10 border-white/20 text-white placeholder:text-gray-400"
                     placeholder="WhatsApp number*"
                     required
                   />
-                  <input
+                  <Input
                     type="text"
                     id="business"
                     value={formData.business}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400"
+                    className="w-full bg-white/10 border-white/20 text-white placeholder:text-gray-400"
                     placeholder="Business type (optional)"
                   />
                   <div className="flex gap-2">
@@ -342,8 +319,8 @@ Ready to book consultation immediately.`;
         </div>
       </section>
 
-      {/* Key Benefits Section - Mobile Optimized */}
-      <section className="container mx-auto px-4 md:px-6 py-12 md:py-16">
+      {/* Key Benefits Section with ID */}
+      <section id="services" className="container mx-auto px-4 md:px-6 py-12 md:py-16">
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
             📈 Why Choose AI Automation?
@@ -470,7 +447,7 @@ Ready to book consultation immediately.`;
         </div>
       </section>
 
-      {/* Main CTA Section - Mobile Optimized */}
+      {/* Main CTA Section */}
       <section className="container mx-auto px-4 md:px-6 py-16 md:py-24">
         <div className="text-center max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 md:mb-8">
@@ -526,8 +503,11 @@ Ready to book consultation immediately.`;
         </div>
       </section>
 
-      {/* Contact Form Section - Mobile Optimized */}
-      <section className="container mx-auto px-4 md:px-6 py-12 md:py-16 bg-black/30">
+      {/* About Section */}
+      <AboutSection />
+
+      {/* Contact Form Section with ID */}
+      <section id="contact" className="container mx-auto px-4 md:px-6 py-12 md:py-16 bg-black/30">
         <div className="grid md:grid-cols-2 gap-12">
           <div>
             <h2 className="text-3xl font-bold text-white mb-6">Get Your Free Automation Consultation</h2>
@@ -565,6 +545,11 @@ Ready to book consultation immediately.`;
                 <span className="text-lg">Gaborone, Botswana</span>
               </div>
             </div>
+            
+            {/* Social Share Component */}
+            <div className="mt-8">
+              <SocialShare />
+            </div>
           </div>
           
           <div className="bg-white/5 border border-white/10 rounded-xl p-8">
@@ -573,24 +558,24 @@ Ready to book consultation immediately.`;
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">Name *</label>
-                  <input
+                  <Input
                     type="text"
                     id="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    placeholder="Your name"
+                    className="w-full bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                    placeholder="Your name*"
                     required
                   />
                 </div>
                 <div>
                   <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">WhatsApp *</label>
-                  <input
+                  <Input
                     type="tel"
                     id="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full bg-white/10 border-white/20 text-white placeholder:text-gray-400"
                     placeholder="+267 ..."
                     required
                   />
@@ -598,26 +583,26 @@ Ready to book consultation immediately.`;
               </div>
               <div>
                 <label htmlFor="business" className="block text-sm font-medium text-gray-300 mb-2">Business Type *</label>
-                <input
+                <Input
                   type="text"
                   id="business"
                   value={formData.business}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full bg-white/10 border-white/20 text-white placeholder:text-gray-400"
                   placeholder="e.g., Restaurant, Retail, Consulting"
                   required
                 />
               </div>
               <div>
                 <label htmlFor="tasks" className="block text-sm font-medium text-gray-300 mb-2">Biggest Time-Wasters</label>
-                <textarea
+                <Textarea
                   id="tasks"
                   rows={4}
                   value={formData.tasks}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full bg-white/10 border-white/20 text-white placeholder:text-gray-400"
                   placeholder="What repetitive tasks take up most of your time? (e.g., answering same questions, writing reports, posting on social media...)"
-                ></textarea>
+                />
               </div>
               <Button type="submit" className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-lg py-4 hover:scale-105 transition-transform">
                 <ArrowRight className="h-5 w-5 mr-2" />
@@ -628,7 +613,7 @@ Ready to book consultation immediately.`;
         </div>
       </section>
 
-      {/* Footer - Mobile Optimized */}
+      {/* Footer */}
       <footer className="container mx-auto px-4 md:px-6 py-8 md:py-12 border-t border-white/10">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="text-gray-300 mb-4 md:mb-0 text-center md:text-left text-sm md:text-base">
@@ -655,3 +640,5 @@ Ready to book consultation immediately.`;
 };
 
 export default Index;
+
+</edits_to_apply>
