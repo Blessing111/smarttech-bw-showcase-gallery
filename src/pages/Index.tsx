@@ -21,7 +21,8 @@ const Index = () => {
 
   // Animation states for countdown
   const [isUrgent, setIsUrgent] = useState(false);
-  const [offersLeft] = useState(2); // Dynamic offers counter
+  const [offersLeft] = useState(3); // Updated to match copy
+  const [pulseButton, setPulseButton] = useState(false);
 
   // WhatsApp number and Calendly link
   const whatsappNumber = "26775981075";
@@ -35,6 +36,7 @@ const Index = () => {
     business: '',
     tasks: ''
   });
+  const [showLeadForm, setShowLeadForm] = useState(false);
 
   // Countdown timer effect with urgency detection
   useEffect(() => {
@@ -62,24 +64,34 @@ const Index = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Button pulse effect
+  useEffect(() => {
+    const pulseTimer = setInterval(() => {
+      setPulseButton(true);
+      setTimeout(() => setPulseButton(false), 1000);
+    }, 3000);
+
+    return () => clearInterval(pulseTimer);
+  }, []);
+
   // Handle Calendly booking
   const handleCalendlyClick = () => {
     window.open(calendlyUrl, '_blank');
     toast({
       title: "Opening Calendly",
-      description: "Book your free consultation slot now!",
+      description: "Book your exclusive consultation now!",
     });
   };
 
   // Handle WhatsApp button clicks
   const handleWhatsAppClick = (message = "") => {
-    const defaultMessage = "I want to claim the exclusive free SmartTech BW website revamp. Let's get started.";
+    const defaultMessage = "Claiming SmartTech BW elite revamp. Let's get started immediately.";
     const encodedMessage = encodeURIComponent(message || defaultMessage);
     window.open(`${whatsappUrl}?text=${encodedMessage}`, '_blank');
     
     toast({
       title: "Opening WhatsApp",
-      description: "We'll respond within 5 minutes!",
+      description: "We'll respond within 2 minutes!",
     });
   };
 
@@ -88,39 +100,32 @@ const Index = () => {
     window.open(`tel:+${whatsappNumber}`, '_self');
     toast({
       title: "Calling SmartTech BW",
-      description: "We're ready to help automate your business!",
+      description: "Elite automation experts ready!",
     });
   };
 
-  // Handle form submission
-  const handleFormSubmit = (e: React.FormEvent) => {
+  // Handle lead capture form
+  const handleLeadCapture = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.business) {
+    if (!formData.name || !formData.phone) {
       toast({
-        title: "Please fill in all required fields",
-        description: "We need your name, phone, and business type to get started.",
+        title: "Name and phone required",
+        description: "We need these to secure your spot.",
         variant: "destructive"
       });
       return;
     }
 
-    const message = `Hi! I'm ${formData.name} from ${formData.business}. 
+    const message = `PRIORITY LEAD: ${formData.name} from ${formData.business || 'unlisted business'}. 
 
-My biggest time-wasters are: ${formData.tasks || 'Various repetitive tasks'}
+Phone: ${formData.phone}
+Main challenge: ${formData.tasks || 'General automation needs'}
 
-My WhatsApp: ${formData.phone}
-
-I'd like to book a free automation demo!`;
+Ready to book consultation immediately.`;
 
     handleWhatsAppClick(message);
-    
-    // Reset form
+    setShowLeadForm(false);
     setFormData({ name: '', phone: '', business: '', tasks: '' });
-    
-    toast({
-      title: "Demo request sent!",
-      description: "We'll contact you within 5 minutes to schedule your free demo.",
-    });
   };
 
   // Handle input changes
@@ -133,11 +138,17 @@ I'd like to book a free automation demo!`;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Fixed Navigation - Optimized for mobile */}
-      <nav className="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
+      {/* Fixed Navigation - Enhanced */}
+      <nav className="fixed top-0 w-full z-50 bg-black/30 backdrop-blur-xl border-b border-white/10">
         <div className="container mx-auto px-4 md:px-6 py-3 md:py-4">
           <div className="flex justify-between items-center">
-            <div className="text-xl md:text-2xl font-bold text-white">SmartTech BW</div>
+            <div className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
+              <Bot className="h-6 w-6 text-purple-400" />
+              SmartTech BW
+              <Badge className="bg-green-500/20 text-green-400 border-green-500/30 text-xs animate-pulse">
+                Elite
+              </Badge>
+            </div>
             <div className="flex gap-2 md:gap-4">
               <Button 
                 onClick={handleCalendlyClick}
@@ -158,125 +169,174 @@ I'd like to book a free automation demo!`;
         </div>
       </nav>
 
-      {/* Hero Section - Tightened Copy & Mobile Optimized */}
+      {/* Hero Section - Tightened & Enhanced */}
       <section className="container mx-auto px-4 md:px-6 pt-24 md:pt-32 pb-16 md:pb-24 flex flex-col items-center text-center">
+        {/* Enhanced Trust Badges */}
         <div className="flex flex-wrap gap-2 mb-4 md:mb-6 justify-center">
           <Badge className="bg-green-500/20 text-green-400 border-green-500/30 animate-pulse text-xs md:text-sm">
-            🤖 AI-Powered
+            🏆 Botswana's #1
           </Badge>
           <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30 text-xs md:text-sm">
-            ⚡ Results in 24hrs
+            ⚡ 24hr Results
           </Badge>
           <Badge className="bg-purple-500/20 text-purple-400 border-purple-500/30 text-xs md:text-sm">
-            💰 Save 30+ Hours
+            🤖 AI-Powered
           </Badge>
         </div>
         
-        {/* Tightened hero copy to ~20 words */}
+        {/* Tightened hero copy - under 20 words */}
         <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-6 md:mb-8 leading-tight">
-          Free Up 30+ Hours Monthly with
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400"> AI Automation</span>
+          Only <span className="text-green-400">{offersLeft} Elite Brands</span> Qualify.
+          <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">Claim Yours Before Time Runs Out.</span>
         </h1>
-        
-        <p className="text-lg md:text-xl lg:text-2xl text-gray-300 max-w-3xl mb-6 md:mb-8 leading-relaxed">
-          Stop wasting time on repetitive tasks. <strong className="text-green-400">Get 30+ hours back monthly</strong> with AI automation.
-        </p>
 
         {/* Enhanced CTA Section with Micro-animations */}
-        <div className={`bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 rounded-2xl p-6 md:p-8 mb-6 md:mb-8 max-w-4xl ${isUrgent ? 'animate-pulse' : ''}`}>
-          <div className="text-center mb-4 md:mb-6">
+        <div className={`bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/40 rounded-2xl p-6 md:p-8 mb-6 md:mb-8 max-w-4xl relative overflow-hidden ${isUrgent ? 'animate-pulse border-red-500/60' : ''}`}>
+          {/* Animated background pulse */}
+          <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-orange-500/10 animate-pulse"></div>
+          
+          <div className="relative z-10 text-center mb-4 md:mb-6">
             <div className="flex items-center justify-center gap-2 mb-2">
               {isUrgent && <AlertTriangle className="h-5 w-5 text-red-400 animate-bounce" />}
               <h2 className="text-2xl md:text-3xl font-bold text-white">
-                🔥 Only {offersLeft} Exclusive Revamps Left
+                🔥 Only {offersLeft} Exclusive Spots Left
               </h2>
               {isUrgent && <AlertTriangle className="h-5 w-5 text-red-400 animate-bounce" />}
             </div>
             <p className="text-lg md:text-xl text-gray-300">
-              ⏳ When the timer hits zero, so does this chance.
+              When this timer hits zero, so does your chance.
             </p>
           </div>
           
-          {/* Enhanced Countdown Timer with Micro-animations */}
-          <div className="bg-black/30 rounded-lg p-4 md:p-6 mb-6 md:mb-8 inline-block">
-            <div className="text-sm text-gray-300 mb-2">Offer expires in:</div>
+          {/* Enhanced Countdown Timer with animations */}
+          <div className="bg-black/50 rounded-lg p-4 md:p-6 mb-6 md:mb-8 inline-block border border-red-500/30">
+            <div className="text-sm text-gray-300 mb-2 flex items-center justify-center gap-2">
+              <Clock className="h-4 w-4 animate-pulse" />
+              Offer expires in:
+            </div>
             <div className="flex gap-2 md:gap-4 text-center">
-              <div className={`bg-red-500/20 rounded-lg p-3 md:p-4 min-w-[60px] md:min-w-[80px] ${timeLeft.hours === 0 && timeLeft.minutes < 10 ? 'animate-pulse' : ''}`}>
+              <div className={`bg-red-500/30 rounded-lg p-3 md:p-4 min-w-[60px] md:min-w-[80px] border border-red-500/50 ${timeLeft.hours === 0 && timeLeft.minutes < 10 ? 'animate-pulse border-red-400' : ''}`}>
                 <div className="text-2xl md:text-3xl font-bold text-white">{timeLeft.hours.toString().padStart(2, '0')}</div>
                 <div className="text-xs md:text-sm text-gray-300">Hours</div>
               </div>
-              <div className={`bg-red-500/20 rounded-lg p-3 md:p-4 min-w-[60px] md:min-w-[80px] ${timeLeft.hours === 0 && timeLeft.minutes < 10 ? 'animate-pulse' : ''}`}>
+              <div className={`bg-red-500/30 rounded-lg p-3 md:p-4 min-w-[60px] md:min-w-[80px] border border-red-500/50 ${timeLeft.hours === 0 && timeLeft.minutes < 10 ? 'animate-pulse border-red-400' : ''}`}>
                 <div className="text-2xl md:text-3xl font-bold text-white">{timeLeft.minutes.toString().padStart(2, '0')}</div>
                 <div className="text-xs md:text-sm text-gray-300">Minutes</div>
               </div>
-              <div className="bg-red-500/20 rounded-lg p-3 md:p-4 min-w-[60px] md:min-w-[80px] animate-pulse">
+              <div className="bg-red-500/30 rounded-lg p-3 md:p-4 min-w-[60px] md:min-w-[80px] animate-pulse border border-red-400">
                 <div className="text-2xl md:text-3xl font-bold text-white">{timeLeft.seconds.toString().padStart(2, '0')}</div>
                 <div className="text-xs md:text-sm text-gray-300">Seconds</div>
               </div>
             </div>
           </div>
 
-          {/* Primary CTA Button - Mobile Optimized */}
+          {/* Primary CTA - Enhanced with animations */}
           <div className="space-y-4">
-            <Button 
-              size="lg" 
-              onClick={handleCalendlyClick}
-              className="bg-gradient-to-r from-green-600 to-green-500 text-lg md:text-xl px-8 md:px-12 py-4 md:py-6 hover:scale-105 transition-transform w-full max-w-md touch-manipulation"
-            >
-              <Calendar className="h-5 w-5 md:h-6 md:w-6 mr-2 md:mr-3" />
-              Claim Your Free Revamp Now
-            </Button>
-            
-            {/* Secondary Options */}
-            <div className="text-gray-300 text-sm">
-              Prefer WhatsApp? 
-              <button 
-                onClick={() => handleWhatsAppClick("I want to claim the exclusive free SmartTech BW website revamp. Let's get started.")}
-                className="text-green-400 hover:text-green-300 ml-2 underline touch-manipulation"
-              >
-                Click here instead
-              </button>
-            </div>
+            {!showLeadForm ? (
+              <>
+                <Button 
+                  size="lg" 
+                  onClick={handleCalendlyClick}
+                  className={`bg-gradient-to-r from-green-600 to-green-500 text-lg md:text-xl px-8 md:px-12 py-4 md:py-6 hover:scale-110 transition-all duration-300 w-full max-w-md touch-manipulation shadow-2xl ${pulseButton ? 'animate-pulse ring-4 ring-green-400/50' : ''}`}
+                >
+                  <Calendar className="h-5 w-5 md:h-6 md:w-6 mr-2 md:mr-3" />
+                  Claim Your Elite Revamp Now
+                </Button>
+                
+                {/* Quick lead capture option */}
+                <div className="text-gray-300 text-sm space-y-2">
+                  <div>
+                    Skip the calendar? 
+                    <button 
+                      onClick={() => setShowLeadForm(true)}
+                      className="text-green-400 hover:text-green-300 ml-2 underline font-semibold"
+                    >
+                      Fast-track here
+                    </button>
+                  </div>
+                  <div>
+                    Or instant WhatsApp: 
+                    <button 
+                      onClick={() => handleWhatsAppClick()}
+                      className="text-blue-400 hover:text-blue-300 ml-2 underline"
+                    >
+                      Message now
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="bg-black/40 rounded-lg p-6 max-w-md mx-auto">
+                <h3 className="text-xl font-semibold text-white mb-4">Secure Your Spot (30 seconds)</h3>
+                <form onSubmit={handleLeadCapture} className="space-y-4">
+                  <input
+                    type="text"
+                    id="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400"
+                    placeholder="Your name*"
+                    required
+                  />
+                  <input
+                    type="tel"
+                    id="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400"
+                    placeholder="WhatsApp number*"
+                    required
+                  />
+                  <input
+                    type="text"
+                    id="business"
+                    value={formData.business}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400"
+                    placeholder="Business type (optional)"
+                  />
+                  <div className="flex gap-2">
+                    <Button type="submit" className="flex-1 bg-green-600 hover:bg-green-500">
+                      <ArrowRight className="h-4 w-4 mr-2" />
+                      Secure Spot
+                    </Button>
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={() => setShowLeadForm(false)}
+                      className="text-white border-white/20"
+                    >
+                      Back
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Enhanced Social Proof */}
-        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-gray-300 mb-8">
-          <div className="flex items-center gap-2">
-            <div className="flex -space-x-2">
-              <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-purple-500"></div>
-              <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-blue-500"></div>
-              <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-green-500"></div>
-            </div>
-            <span className="text-xs md:text-sm">50+ businesses automated</span>
-          </div>
-          <div className="flex items-center gap-1">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="h-3 w-3 md:h-4 md:w-4 fill-yellow-400 text-yellow-400" />
-            ))}
-            <span className="text-xs md:text-sm ml-2">4.9/5 rating</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Bot className="h-4 w-4 md:h-5 md:w-5 text-purple-400" />
-            <span className="text-xs md:text-sm">Powered by ChatGPT & AI</span>
-          </div>
-        </div>
-
-        {/* Trust Signals - Client Logos/Testimonials */}
+        {/* Enhanced Social Proof with TikTok metrics */}
         <div className="bg-white/5 border border-white/10 rounded-xl p-6 md:p-8 max-w-4xl mb-8">
-          <h3 className="text-xl md:text-2xl font-semibold text-white mb-4 text-center">Trusted by Botswana Businesses</h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="text-lg font-semibold text-green-400 mb-2">Restaurant Chain</div>
-              <p className="text-gray-300 text-sm">"Saved 40 hours monthly on order management"</p>
+          <div className="grid md:grid-cols-3 gap-6 text-center">
+            <div className="flex flex-col items-center">
+              <div className="flex items-center gap-1 mb-2">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                ))}
+              </div>
+              <div className="text-lg font-semibold text-white mb-1">50+ Elite Clients</div>
+              <div className="text-gray-300 text-sm">"Botswana's most trusted automation experts"</div>
             </div>
-            <div className="text-center">
-              <div className="text-lg font-semibold text-blue-400 mb-2">Retail Store</div>
-              <p className="text-gray-300 text-sm">"Automated inventory tracking increased efficiency by 300%"</p>
+            <div className="flex flex-col items-center">
+              <div className="text-2xl mb-2">📈</div>
+              <div className="text-lg font-semibold text-green-400 mb-1">18M+ TikTok Views</div>
+              <div className="text-gray-300 text-sm">Premium content that converts</div>
             </div>
-            <div className="text-center">
-              <div className="text-lg font-semibold text-purple-400 mb-2">Consulting Firm</div>
-              <p className="text-gray-300 text-sm">"AI reports generation cut admin time in half"</p>
+            <div className="flex flex-col items-center">
+              <div className="text-2xl mb-2">⚡</div>
+              <div className="text-lg font-semibold text-blue-400 mb-1">24hr Turnaround</div>
+              <div className="text-gray-300 text-sm">While others take weeks</div>
             </div>
           </div>
         </div>
@@ -509,7 +569,7 @@ I'd like to book a free automation demo!`;
           
           <div className="bg-white/5 border border-white/10 rounded-xl p-8">
             <h3 className="text-2xl font-semibold text-white mb-6">What's eating up your time?</h3>
-            <form onSubmit={handleFormSubmit} className="space-y-6">
+            <form onSubmit={handleLeadCapture} className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">Name *</label>
@@ -572,7 +632,7 @@ I'd like to book a free automation demo!`;
       <footer className="container mx-auto px-4 md:px-6 py-8 md:py-12 border-t border-white/10">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="text-gray-300 mb-4 md:mb-0 text-center md:text-left text-sm md:text-base">
-            © {new Date().getFullYear()} SmartTech BW. Automating Botswana's businesses, one task at a time.
+            © {new Date().getFullYear()} SmartTech BW. Automating Botswana's elite businesses.
           </div>
           <div className="flex gap-4">
             <button onClick={handleCalendlyClick} className="text-gray-300 hover:text-white transition-colors touch-manipulation">
