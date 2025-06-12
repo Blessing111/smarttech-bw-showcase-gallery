@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -7,11 +6,6 @@ import { useProjects } from "@/hooks/useProjects";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
-import Navigation from "@/components/Navigation";
-import AboutSection from "@/components/AboutSection";
-import SocialShare from "@/components/SocialShare";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 
 const Index = () => {
   const { data: projects, isLoading } = useProjects();
@@ -27,8 +21,7 @@ const Index = () => {
 
   // Animation states for countdown
   const [isUrgent, setIsUrgent] = useState(false);
-  const [offersLeft] = useState(3); // Updated to match copy
-  const [pulseButton, setPulseButton] = useState(false);
+  const [offersLeft] = useState(2); // Dynamic offers counter
 
   // WhatsApp number and Calendly link
   const whatsappNumber = "26775981075";
@@ -42,7 +35,6 @@ const Index = () => {
     business: '',
     tasks: ''
   });
-  const [showLeadForm, setShowLeadForm] = useState(false);
 
   // Countdown timer effect with urgency detection
   useEffect(() => {
@@ -70,34 +62,24 @@ const Index = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Button pulse effect
-  useEffect(() => {
-    const pulseTimer = setInterval(() => {
-      setPulseButton(true);
-      setTimeout(() => setPulseButton(false), 1000);
-    }, 3000);
-
-    return () => clearInterval(pulseTimer);
-  }, []);
-
   // Handle Calendly booking
   const handleCalendlyClick = () => {
     window.open(calendlyUrl, '_blank');
     toast({
       title: "Opening Calendly",
-      description: "Book your exclusive consultation now!",
+      description: "Book your free consultation slot now!",
     });
   };
 
   // Handle WhatsApp button clicks
   const handleWhatsAppClick = (message = "") => {
-    const defaultMessage = "Claiming SmartTech BW elite revamp. Let's get started immediately.";
+    const defaultMessage = "I want to claim the exclusive free SmartTech BW website revamp. Let's get started.";
     const encodedMessage = encodeURIComponent(message || defaultMessage);
     window.open(`${whatsappUrl}?text=${encodedMessage}`, '_blank');
     
     toast({
       title: "Opening WhatsApp",
-      description: "We'll respond within 2 minutes!",
+      description: "We'll respond within 5 minutes!",
     });
   };
 
@@ -106,32 +88,39 @@ const Index = () => {
     window.open(`tel:+${whatsappNumber}`, '_self');
     toast({
       title: "Calling SmartTech BW",
-      description: "Elite automation experts ready!",
+      description: "We're ready to help automate your business!",
     });
   };
 
-  // Handle lead capture form
-  const handleLeadCapture = (e: React.FormEvent) => {
+  // Handle form submission
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.phone) {
+    if (!formData.name || !formData.phone || !formData.business) {
       toast({
-        title: "Name and phone required",
-        description: "We need these to secure your spot.",
+        title: "Please fill in all required fields",
+        description: "We need your name, phone, and business type to get started.",
         variant: "destructive"
       });
       return;
     }
 
-    const message = `PRIORITY LEAD: ${formData.name} from ${formData.business || 'unlisted business'}. 
+    const message = `Hi! I'm ${formData.name} from ${formData.business}. 
 
-Phone: ${formData.phone}
-Main challenge: ${formData.tasks || 'General automation needs'}
+My biggest time-wasters are: ${formData.tasks || 'Various repetitive tasks'}
 
-Ready to book consultation immediately.`;
+My WhatsApp: ${formData.phone}
+
+I'd like to book a free automation demo!`;
 
     handleWhatsAppClick(message);
-    setShowLeadForm(false);
+    
+    // Reset form
     setFormData({ name: '', phone: '', business: '', tasks: '' });
+    
+    toast({
+      title: "Demo request sent!",
+      description: "We'll contact you within 5 minutes to schedule your free demo.",
+    });
   };
 
   // Handle input changes
@@ -144,319 +133,157 @@ Ready to book consultation immediately.`;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Enhanced Navigation */}
-      <Navigation />
+      {/* Fixed Navigation - Optimized for mobile */}
+      <nav className="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
+        <div className="container mx-auto px-4 md:px-6 py-3 md:py-4">
+          <div className="flex justify-between items-center">
+            <div className="text-xl md:text-2xl font-bold text-white">SmartTech BW</div>
+            <div className="flex gap-2 md:gap-4">
+              <Button 
+                onClick={handleCalendlyClick}
+                size="sm"
+                className="bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:scale-105 transition-transform text-xs md:text-sm"
+              >
+                <Calendar className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
+                Book Call
+              </Button>
+              <Link to="/admin">
+                <Button variant="outline" size="sm" className="text-white border-white/20 hover:bg-white/10 text-xs md:text-sm">
+                  <Settings className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
+                  Admin
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
 
-      {/* Hero Section with ID for navigation */}
-      <section id="home" className="container mx-auto px-4 md:px-6 pt-24 md:pt-32 pb-16 md:pb-24 flex flex-col items-center text-center">
-        {/* Enhanced Trust Badges */}
+      {/* Hero Section - Tightened Copy & Mobile Optimized */}
+      <section className="container mx-auto px-4 md:px-6 pt-24 md:pt-32 pb-16 md:pb-24 flex flex-col items-center text-center">
         <div className="flex flex-wrap gap-2 mb-4 md:mb-6 justify-center">
           <Badge className="bg-green-500/20 text-green-400 border-green-500/30 animate-pulse text-xs md:text-sm">
-            🏆 Botswana's #1
+            🤖 AI-Powered
           </Badge>
           <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30 text-xs md:text-sm">
-            ⚡ 24hr Results
+            ⚡ Results in 24hrs
           </Badge>
           <Badge className="bg-purple-500/20 text-purple-400 border-purple-500/30 text-xs md:text-sm">
-            🤖 AI-Powered
+            💰 Save 30+ Hours
           </Badge>
         </div>
         
-        {/* Updated hero copy with stronger messaging */}
+        {/* Tightened hero copy to ~20 words */}
         <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-6 md:mb-8 leading-tight">
-          <span className="text-red-400">Botswana's Digital Future</span> Starts With You.
-          <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">Book Now or Watch Your Market Share Disappear.</span>
+          Free Up 30+ Hours Monthly with
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400"> AI Automation</span>
         </h1>
+        
+        <p className="text-lg md:text-xl lg:text-2xl text-gray-300 max-w-3xl mb-6 md:mb-8 leading-relaxed">
+          Stop wasting time on repetitive tasks. <strong className="text-green-400">Get 30+ hours back monthly</strong> with AI automation.
+        </p>
 
         {/* Enhanced CTA Section with Micro-animations */}
-        <div className={`bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500/40 rounded-2xl p-6 md:p-8 mb-6 md:mb-8 max-w-4xl relative overflow-hidden ${isUrgent ? 'animate-pulse border-red-500/60' : ''}`}>
-          {/* Animated background pulse */}
-          <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-orange-500/10 animate-pulse"></div>
-          
-          <div className="relative z-10 text-center mb-4 md:mb-6">
+        <div className={`bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 rounded-2xl p-6 md:p-8 mb-6 md:mb-8 max-w-4xl ${isUrgent ? 'animate-pulse' : ''}`}>
+          <div className="text-center mb-4 md:mb-6">
             <div className="flex items-center justify-center gap-2 mb-2">
               {isUrgent && <AlertTriangle className="h-5 w-5 text-red-400 animate-bounce" />}
               <h2 className="text-2xl md:text-3xl font-bold text-white">
-                🔥 Only {offersLeft} Elite Brands Get This Upgrade
+                🔥 Only {offersLeft} Exclusive Revamps Left
               </h2>
               {isUrgent && <AlertTriangle className="h-5 w-5 text-red-400 animate-bounce" />}
             </div>
             <p className="text-lg md:text-xl text-gray-300">
-              Don't let your competition leave you behind while you hesitate.
+              ⏳ When the timer hits zero, so does this chance.
             </p>
           </div>
           
-          {/* Enhanced Countdown Timer with animations */}
-          <div className="bg-black/50 rounded-lg p-4 md:p-6 mb-6 md:mb-8 inline-block border border-red-500/30">
-            <div className="text-sm text-gray-300 mb-2 flex items-center justify-center gap-2">
-              <Clock className="h-4 w-4 animate-pulse" />
-              Your window closes in:
-            </div>
+          {/* Enhanced Countdown Timer with Micro-animations */}
+          <div className="bg-black/30 rounded-lg p-4 md:p-6 mb-6 md:mb-8 inline-block">
+            <div className="text-sm text-gray-300 mb-2">Offer expires in:</div>
             <div className="flex gap-2 md:gap-4 text-center">
-              <div className={`bg-red-500/30 rounded-lg p-3 md:p-4 min-w-[60px] md:min-w-[80px] border border-red-500/50 ${timeLeft.hours === 0 && timeLeft.minutes < 10 ? 'animate-pulse border-red-400' : ''}`}>
+              <div className={`bg-red-500/20 rounded-lg p-3 md:p-4 min-w-[60px] md:min-w-[80px] ${timeLeft.hours === 0 && timeLeft.minutes < 10 ? 'animate-pulse' : ''}`}>
                 <div className="text-2xl md:text-3xl font-bold text-white">{timeLeft.hours.toString().padStart(2, '0')}</div>
                 <div className="text-xs md:text-sm text-gray-300">Hours</div>
               </div>
-              <div className={`bg-red-500/30 rounded-lg p-3 md:p-4 min-w-[60px] md:min-w-[80px] border border-red-500/50 ${timeLeft.hours === 0 && timeLeft.minutes < 10 ? 'animate-pulse border-red-400' : ''}`}>
+              <div className={`bg-red-500/20 rounded-lg p-3 md:p-4 min-w-[60px] md:min-w-[80px] ${timeLeft.hours === 0 && timeLeft.minutes < 10 ? 'animate-pulse' : ''}`}>
                 <div className="text-2xl md:text-3xl font-bold text-white">{timeLeft.minutes.toString().padStart(2, '0')}</div>
                 <div className="text-xs md:text-sm text-gray-300">Minutes</div>
               </div>
-              <div className="bg-red-500/30 rounded-lg p-3 md:p-4 min-w-[60px] md:min-w-[80px] animate-pulse border border-red-400">
+              <div className="bg-red-500/20 rounded-lg p-3 md:p-4 min-w-[60px] md:min-w-[80px] animate-pulse">
                 <div className="text-2xl md:text-3xl font-bold text-white">{timeLeft.seconds.toString().padStart(2, '0')}</div>
                 <div className="text-xs md:text-sm text-gray-300">Seconds</div>
               </div>
             </div>
           </div>
 
-          {/* Updated Primary CTA with stronger copy */}
+          {/* Primary CTA Button - Mobile Optimized */}
           <div className="space-y-4">
-            {!showLeadForm ? (
-              <>
-                <Button 
-                  size="lg" 
-                  onClick={handleCalendlyClick}
-                  className={`bg-gradient-to-r from-green-600 to-green-500 text-lg md:text-xl px-8 md:px-12 py-4 md:py-6 hover:scale-110 transition-all duration-300 w-full max-w-md touch-manipulation shadow-2xl ${pulseButton ? 'animate-pulse ring-4 ring-green-400/50' : ''}`}
-                >
-                  <Calendar className="h-5 w-5 md:h-6 md:w-6 mr-2 md:mr-3" />
-                  Secure Your Automation Upgrade
-                </Button>
-                
-                {/* Quick lead capture option */}
-                <div className="text-gray-300 text-sm space-y-2">
-                  <div>
-                    Skip the calendar? 
-                    <button 
-                      onClick={() => setShowLeadForm(true)}
-                      className="text-green-400 hover:text-green-300 ml-2 underline font-semibold"
-                    >
-                      Fast-track here
-                    </button>
-                  </div>
-                  <div>
-                    Or instant WhatsApp: 
-                    <button 
-                      onClick={() => handleWhatsAppClick()}
-                      className="text-blue-400 hover:text-blue-300 ml-2 underline"
-                    >
-                      Message now
-                    </button>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <div className="bg-black/40 rounded-lg p-6 max-w-md mx-auto">
-                <h3 className="text-xl font-semibold text-white mb-4">Secure Your Spot (30 seconds)</h3>
-                <form onSubmit={handleLeadCapture} className="space-y-4">
-                  <Input
-                    type="text"
-                    id="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full bg-white/10 border-white/20 text-white placeholder:text-gray-400"
-                    placeholder="Your name*"
-                    required
-                  />
-                  <Input
-                    type="tel"
-                    id="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className="w-full bg-white/10 border-white/20 text-white placeholder:text-gray-400"
-                    placeholder="WhatsApp number*"
-                    required
-                  />
-                  <Input
-                    type="text"
-                    id="business"
-                    value={formData.business}
-                    onChange={handleInputChange}
-                    className="w-full bg-white/10 border-white/20 text-white placeholder:text-gray-400"
-                    placeholder="Business type (optional)"
-                  />
-                  <div className="flex gap-2">
-                    <Button type="submit" className="flex-1 bg-green-600 hover:bg-green-500">
-                      <ArrowRight className="h-4 w-4 mr-2" />
-                      Secure Spot
-                    </Button>
-                    <Button 
-                      type="button" 
-                      variant="outline" 
-                      onClick={() => setShowLeadForm(false)}
-                      className="text-white border-white/20"
-                    >
-                      Back
-                    </Button>
-                  </div>
-                </form>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Enhanced Social Proof with TikTok metrics */}
-        <div className="bg-white/5 border border-white/10 rounded-xl p-6 md:p-8 max-w-4xl mb-8">
-          <div className="grid md:grid-cols-3 gap-6 text-center">
-            <div className="flex flex-col items-center">
-              <div className="flex items-center gap-1 mb-2">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-              <div className="text-lg font-semibold text-white mb-1">50+ Elite Clients</div>
-              <div className="text-gray-300 text-sm">"Botswana's most trusted automation experts"</div>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="text-2xl mb-2">📈</div>
-              <div className="text-lg font-semibold text-green-400 mb-1">18M+ TikTok Views</div>
-              <div className="text-gray-300 text-sm">Premium content that converts</div>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="text-2xl mb-2">⚡</div>
-              <div className="text-lg font-semibold text-blue-400 mb-1">24hr Turnaround</div>
-              <div className="text-gray-300 text-sm">While others take weeks</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* New Social Proof Testimonial Section */}
-      <section className="container mx-auto px-4 md:px-6 py-12 md:py-16 bg-black/10">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
-            💬 What Elite Brands Say About Us
-          </h2>
-          <div className="bg-white/5 border border-white/10 rounded-xl p-8 mb-8">
-            <div className="flex items-center gap-1 mb-4 justify-center">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-              ))}
-            </div>
-            <blockquote className="text-xl md:text-2xl text-gray-200 mb-6 italic">
-              "SmartTech BW transformed our customer service from chaos to 24/7 automation. 
-              Our response time went from hours to seconds, and customer satisfaction jumped 300%. 
-              They delivered in 48 hours what other agencies promised in months."
-            </blockquote>
-            <div className="text-green-400 font-semibold text-lg">
-              - Sarah M., CEO of Gaborone Premium Retail
-            </div>
-            <div className="text-gray-400 text-sm mt-2">
-              Revenue increased by 250% in 3 months after automation
-            </div>
-          </div>
-          
-          {/* TikTok embed placeholder */}
-          <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-xl p-6">
-            <h3 className="text-xl font-semibold text-white mb-4">🎥 See Our Work in Action</h3>
-            <div className="bg-black/40 rounded-lg p-8 border border-white/10">
-              <div className="text-6xl mb-4">📱</div>
-              <p className="text-gray-300 mb-4">Watch our latest TikTok showcasing automation magic</p>
-              <Button 
-                onClick={() => window.open('https://tiktok.com/@smarttechbw', '_blank')}
-                className="bg-gradient-to-r from-pink-600 to-purple-600"
-              >
-                View on TikTok
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* NEW: 3 Brands We're Calling Out Section */}
-      <section className="container mx-auto px-4 md:px-6 py-12 md:py-16 bg-gradient-to-r from-red-900/20 to-orange-900/20">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            🎯 3 Brands We're Calling Out
-          </h2>
-          <p className="text-xl md:text-2xl text-gray-300 mb-12">
-            We're offering a full revamp for 3 brands with bad landing pages. 
-            If that's you… <span className="text-red-400 font-bold">claim it now or watch your market share disappear.</span>
-          </p>
-          
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <div className="bg-white/5 border-2 border-red-500/50 rounded-xl p-6 hover:bg-white/10 transition-all">
-              <div className="text-3xl mb-4">🏢</div>
-              <h3 className="text-xl font-semibold text-white mb-3">DIS (Department of Information Services)</h3>
-              <p className="text-gray-300 mb-4 text-sm">dis.org.bw</p>
-              <div className="bg-red-500/20 border border-red-500/40 rounded-lg p-3 mb-4">
-                <p className="text-red-300 text-sm font-semibold">Issues Spotted:</p>
-                <ul className="text-gray-300 text-xs text-left mt-2 space-y-1">
-                  <li>• Outdated design from 2010</li>
-                  <li>• Poor mobile experience</li>
-                  <li>• Confusing navigation</li>
-                </ul>
-              </div>
-              <Button 
-                onClick={handleCalendlyClick}
-                className="w-full bg-red-600 hover:bg-red-500"
-              >
-                Claim This Revamp
-              </Button>
-            </div>
-
-            <div className="bg-white/5 border-2 border-orange-500/50 rounded-xl p-6 hover:bg-white/10 transition-all">
-              <div className="text-3xl mb-4">🏦</div>
-              <h3 className="text-xl font-semibold text-white mb-3">Local Bank X</h3>
-              <p className="text-gray-300 mb-4 text-sm">Banking sector needs disruption</p>
-              <div className="bg-orange-500/20 border border-orange-500/40 rounded-lg p-3 mb-4">
-                <p className="text-orange-300 text-sm font-semibold">Issues Spotted:</p>
-                <ul className="text-gray-300 text-xs text-left mt-2 space-y-1">
-                  <li>• Zero automation</li>
-                  <li>• Customer service delays</li>
-                  <li>• Manual processes everywhere</li>
-                </ul>
-              </div>
-              <Button 
-                onClick={handleCalendlyClick}
-                className="w-full bg-orange-600 hover:bg-orange-500"
-              >
-                Claim This Spot
-              </Button>
-            </div>
-
-            <div className="bg-white/5 border-2 border-yellow-500/50 rounded-xl p-6 hover:bg-white/10 transition-all">
-              <div className="text-3xl mb-4">🛍️</div>
-              <h3 className="text-xl font-semibold text-white mb-3">Retail Chain Y</h3>
-              <p className="text-gray-300 mb-4 text-sm">Losing to online competitors</p>
-              <div className="bg-yellow-500/20 border border-yellow-500/40 rounded-lg p-3 mb-4">
-                <p className="text-yellow-300 text-sm font-semibold">Issues Spotted:</p>
-                <ul className="text-gray-300 text-xs text-left mt-2 space-y-1">
-                  <li>• No online presence</li>
-                  <li>• Inventory chaos</li>
-                  <li>• Lost customer data</li>
-                </ul>
-              </div>
-              <Button 
-                onClick={handleCalendlyClick}
-                className="w-full bg-yellow-600 hover:bg-yellow-500"
-              >
-                Claim This Upgrade
-              </Button>
-            </div>
-          </div>
-
-          <div className="bg-black/40 border border-red-500/30 rounded-xl p-8">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              ⚠️ Don't See Your Brand Listed?
-            </h3>
-            <p className="text-gray-300 mb-6">
-              Good. That means you still have time to fix your digital presence before we call you out publicly. 
-              But this window won't stay open forever.
-            </p>
             <Button 
-              size="lg"
+              size="lg" 
               onClick={handleCalendlyClick}
-              className="bg-gradient-to-r from-green-600 to-green-500 text-xl px-12 py-6"
+              className="bg-gradient-to-r from-green-600 to-green-500 text-lg md:text-xl px-8 md:px-12 py-4 md:py-6 hover:scale-105 transition-transform w-full max-w-md touch-manipulation"
             >
-              <Shield className="h-6 w-6 mr-3" />
-              Protect Your Brand Now
+              <Calendar className="h-5 w-5 md:h-6 md:w-6 mr-2 md:mr-3" />
+              Claim Your Free Revamp Now
             </Button>
+            
+            {/* Secondary Options */}
+            <div className="text-gray-300 text-sm">
+              Prefer WhatsApp? 
+              <button 
+                onClick={() => handleWhatsAppClick("I want to claim the exclusive free SmartTech BW website revamp. Let's get started.")}
+                className="text-green-400 hover:text-green-300 ml-2 underline touch-manipulation"
+              >
+                Click here instead
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Enhanced Social Proof */}
+        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-gray-300 mb-8">
+          <div className="flex items-center gap-2">
+            <div className="flex -space-x-2">
+              <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-purple-500"></div>
+              <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-blue-500"></div>
+              <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-green-500"></div>
+            </div>
+            <span className="text-xs md:text-sm">50+ businesses automated</span>
+          </div>
+          <div className="flex items-center gap-1">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="h-3 w-3 md:h-4 md:w-4 fill-yellow-400 text-yellow-400" />
+            ))}
+            <span className="text-xs md:text-sm ml-2">4.9/5 rating</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Bot className="h-4 w-4 md:h-5 md:w-5 text-purple-400" />
+            <span className="text-xs md:text-sm">Powered by ChatGPT & AI</span>
+          </div>
+        </div>
+
+        {/* Trust Signals - Client Logos/Testimonials */}
+        <div className="bg-white/5 border border-white/10 rounded-xl p-6 md:p-8 max-w-4xl mb-8">
+          <h3 className="text-xl md:text-2xl font-semibold text-white mb-4 text-center">Trusted by Botswana Businesses</h3>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <div className="text-lg font-semibold text-green-400 mb-2">Restaurant Chain</div>
+              <p className="text-gray-300 text-sm">"Saved 40 hours monthly on order management"</p>
+            </div>
+            <div className="text-center">
+              <div className="text-lg font-semibold text-blue-400 mb-2">Retail Store</div>
+              <p className="text-gray-300 text-sm">"Automated inventory tracking increased efficiency by 300%"</p>
+            </div>
+            <div className="text-center">
+              <div className="text-lg font-semibold text-purple-400 mb-2">Consulting Firm</div>
+              <p className="text-gray-300 text-sm">"AI reports generation cut admin time in half"</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Key Benefits Section with ID */}
-      <section id="services" className="container mx-auto px-4 md:px-6 py-12 md:py-16">
+      {/* Key Benefits Section - Mobile Optimized */}
+      <section className="container mx-auto px-4 md:px-6 py-12 md:py-16">
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
             📈 Why Choose AI Automation?
@@ -583,14 +410,14 @@ Ready to book consultation immediately.`;
         </div>
       </section>
 
-      {/* Main CTA Section */}
+      {/* Main CTA Section - Mobile Optimized */}
       <section className="container mx-auto px-4 md:px-6 py-16 md:py-24">
         <div className="text-center max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 md:mb-8">
-            📞 Let's Revamp Before Your Brand Gets Forgotten
+            📞 Ready to see how we can automate your business?
           </h2>
           <p className="text-xl md:text-2xl text-gray-300 mb-8 md:mb-12">
-            Get your <strong className="text-green-400">free digital transformation consultation</strong> today
+            Get a <strong className="text-green-400">free AI automation consultation</strong> today
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center mb-8 md:mb-12">
@@ -639,11 +466,8 @@ Ready to book consultation immediately.`;
         </div>
       </section>
 
-      {/* About Section */}
-      <AboutSection />
-
-      {/* Contact Form Section with ID */}
-      <section id="contact" className="container mx-auto px-4 md:px-6 py-12 md:py-16 bg-black/30">
+      {/* Contact Form Section - Mobile Optimized */}
+      <section className="container mx-auto px-4 md:px-6 py-12 md:py-16 bg-black/30">
         <div className="grid md:grid-cols-2 gap-12">
           <div>
             <h2 className="text-3xl font-bold text-white mb-6">Get Your Free Automation Consultation</h2>
@@ -681,37 +505,32 @@ Ready to book consultation immediately.`;
                 <span className="text-lg">Gaborone, Botswana</span>
               </div>
             </div>
-            
-            {/* Social Share Component */}
-            <div className="mt-8">
-              <SocialShare />
-            </div>
           </div>
           
           <div className="bg-white/5 border border-white/10 rounded-xl p-8">
             <h3 className="text-2xl font-semibold text-white mb-6">What's eating up your time?</h3>
-            <form onSubmit={handleLeadCapture} className="space-y-6">
+            <form onSubmit={handleFormSubmit} className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">Name *</label>
-                  <Input
+                  <input
                     type="text"
                     id="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full bg-white/10 border-white/20 text-white placeholder:text-gray-400"
-                    placeholder="Your name*"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="Your name"
                     required
                   />
                 </div>
                 <div>
                   <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">WhatsApp *</label>
-                  <Input
+                  <input
                     type="tel"
                     id="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="+267 ..."
                     required
                   />
@@ -719,26 +538,26 @@ Ready to book consultation immediately.`;
               </div>
               <div>
                 <label htmlFor="business" className="block text-sm font-medium text-gray-300 mb-2">Business Type *</label>
-                <Input
+                <input
                   type="text"
                   id="business"
                   value={formData.business}
                   onChange={handleInputChange}
-                  className="w-full bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   placeholder="e.g., Restaurant, Retail, Consulting"
                   required
                 />
               </div>
               <div>
                 <label htmlFor="tasks" className="block text-sm font-medium text-gray-300 mb-2">Biggest Time-Wasters</label>
-                <Textarea
+                <textarea
                   id="tasks"
                   rows={4}
                   value={formData.tasks}
                   onChange={handleInputChange}
-                  className="w-full bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   placeholder="What repetitive tasks take up most of your time? (e.g., answering same questions, writing reports, posting on social media...)"
-                />
+                ></textarea>
               </div>
               <Button type="submit" className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-lg py-4 hover:scale-105 transition-transform">
                 <ArrowRight className="h-5 w-5 mr-2" />
@@ -749,11 +568,11 @@ Ready to book consultation immediately.`;
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Footer - Mobile Optimized */}
       <footer className="container mx-auto px-4 md:px-6 py-8 md:py-12 border-t border-white/10">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="text-gray-300 mb-4 md:mb-0 text-center md:text-left text-sm md:text-base">
-            © {new Date().getFullYear()} SmartTech BW. Automating Botswana's elite businesses.
+            © {new Date().getFullYear()} SmartTech BW. Automating Botswana's businesses, one task at a time.
           </div>
           <div className="flex gap-4">
             <button onClick={handleCalendlyClick} className="text-gray-300 hover:text-white transition-colors touch-manipulation">
